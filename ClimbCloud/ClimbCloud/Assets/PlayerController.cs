@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
     Rigidbody2D rigid2D;
@@ -19,9 +19,10 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // 점프한다.
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && this.rigid2D.velocity.y == 0)
+
         {
+            this.animator.SetTrigger("JumpTrigger");
             this.rigid2D.AddForce(transform.up * this.jumpForce);
         }
 
@@ -45,5 +46,31 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector3(key, 1, 1);
         }
         this.animator.speed = speedx / 2.0f;
+
+        if (this.rigid2D.velocity.y == 0)
+        {
+            this.animator.speed = speedx / 2.0f;
+        }
+        else
+        {
+            this.animator.speed = 1.0f;
+        }
+
+
+
+        if (transform.position.y < -10)
+        {
+            SceneManager.LoadScene("GameScene");
+        }
+
+    }
+
+    // 골 도착
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("골");
+        SceneManager.LoadScene("ClearScene");
     }
 }
+
+

@@ -71,6 +71,19 @@ public class PlayerController : MonoBehaviour
         Debug.Log("골");
         SceneManager.LoadScene("ClearScene");
     }
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Cloud"))
+        {
+            transform.SetParent(collision.gameObject.transform);
+        }
+        else
+        {
+            transform.SetParent(null); 
+        }
+    }
 }
 
 
